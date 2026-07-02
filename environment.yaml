@@ -1,0 +1,38 @@
+name: tmprot
+channels:
+  - pytorch
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch=2.5.1
+  - torchvision=0.20.1
+  - torchaudio=2.5.1
+  - pandas
+  - scipy
+  - scikit-learn
+  - seaborn
+  - prettytable
+  - numpy
+  - matplotlib
+  - packaging
+  - ipykernel
+  - mmseqs2
+  - pip:
+      - transformers==4.47.1
+      - accelerate==1.1.1
+      - datasets>=2.18.0
+      - peft==0.13.2
+      - optuna
+      - nvitop
+      - mlflow
+      - dagshub
+      - biopython
+      - joblib
+      - tqdm
+      - python-dotenv
+      - esm
+      - omegaconf>=2.3

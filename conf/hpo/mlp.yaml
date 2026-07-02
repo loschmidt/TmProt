@@ -1,0 +1,38 @@
+# sklearn MLP Hyperparameter Optimization config (uses ESM3 embeddings)
+# Run: python src/training/hpo/mlp_hpo.py
+# Override: python src/training/hpo/mlp_hpo.py n_trials=100
+
+random_state: 42
+n_folds: 5
+save_dir: "../hyperparameter_optimization_results/mlp_esm3"
+base_dir: "../data/promelt"
+esm3_embeddings: "../data/promelt/esm3_embeddings.parquet"
+train_seq_file: "../data/promelt/train_promelt_seq.csv"
+val_seq_file: "../data/promelt/val_promelt_seq.csv"
+n_trials: 50
+
+# Optuna study settings
+optuna:
+  direction: minimize
+  sampler: tpe
+
+# MLP architecture search space
+# Note: layer sizes use procedural trial.suggest_categorical per-layer,
+# so only the choices list and n_layers bounds are specified here.
+architecture:
+  n_layers_low: 1
+  n_layers_high: 2
+  layer_choices: [32, 64, 128, 256]
+
+# Fixed MLP training settings
+fixed:
+  early_stopping: true
+  random_state: 42
+  max_iter_cv: 100       # max_iter during CV objective
+  max_iter_final: 500    # max_iter when retraining best model
+
+# Best known configuration (used for retraining after HPO completes)
+# Update these after a successful HPO run.
+best:
+  hidden_layer_sizes: [128, 64]
+  learning_rate_init: 0.0003627988718026207

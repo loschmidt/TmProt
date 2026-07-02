@@ -1,0 +1,5 @@
+click>=8.0
+torch>=2.0
+transformers>=4.30
+peft>=0.4
+biopython>=1.81

@@ -1,0 +1,10 @@
+{
+    "trial_number": 47,
+    "value": 7.550513744354248,
+    "params": {
+        "learning_rate": 0.0004952347977673473,
+        "lora_alpha": 1,
+        "weight_decay": 1.5556742580571586e-05,
+        "max_grad_norm": 0.8054189693385613
+    }
+}

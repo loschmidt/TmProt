@@ -1,0 +1,55 @@
+stages:
+
+  extract_esm2_promelt:
+    foreach:
+      train: train
+      val: val
+      test: test
+    do:
+      cmd: python src/scripts/extract_esm2_embeddings.py
+        -f data/promelt/processed/meltome_protherm_clusters.csv
+        -o data/promelt/processed
+        --model_name ${esm2.model_name}
+        --repr_layer ${esm2.repr_layer}
+        --toks_per_batch ${esm2.toks_per_batch}
+        --split ${item}
+      deps:
+        - data/promelt/processed/meltome_protherm_clusters.csv
+        - src/scripts/extract_esm2_embeddings.py
+      params:
+        - esm2.model_name
+        - esm2.repr_layer
+        - esm2.toks_per_batch
+      outs:
+        - data/promelt/processed/dataset_esm2_${item}.csv
+
+  extract_esm2_eval:
+    foreach:
+      fireprot:
+        csv: FIREPROT.csv
+      ered_asr:
+        csv: ERED_ASR.csv
+      ered_wt:
+        csv: ERED_WT.csv
+      cas:
+        csv: CAS.csv
+      hld:
+        csv: HLD.csv
+      brenda:
+        csv: BRENDA.csv
+    do:
+      cmd: python src/scripts/extract_esm2_embeddings.py
+        -f data/evaluation_sets/${key}/raw/${item.csv}
+        -o data/evaluation_sets/${key}/processed
+        --model_name ${esm2.model_name}
+        --repr_layer ${esm2.repr_layer}
+        --toks_per_batch ${esm2.toks_per_batch}
+      deps:
+        - data/evaluation_sets/${key}/raw/${item.csv}
+        - src/scripts/extract_esm2_embeddings.py
+      params:
+        - esm2.model_name
+        - esm2.repr_layer
+        - esm2.toks_per_batch
+      outs:
+        - data/evaluation_sets/${key}/processed/dataset_esm2.csv

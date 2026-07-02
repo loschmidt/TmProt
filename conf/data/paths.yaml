@@ -1,0 +1,17 @@
+# Canonical dataset paths relative to the project root (one level above src/)
+promelt:
+  root: "../data/promelt"
+  train: "../data/promelt/train_promelt_seq.csv"
+  val: "../data/promelt/val_promelt_seq.csv"
+  test: "../data/promelt/test_promelt_seq.csv"
+  esm3_embeddings: "../data/promelt/esm3_embeddings.parquet"
+
+eval_sets:
+  root: "../data/evaluation_sets"
+  brenda: "../data/evaluation_sets/brenda/BRENDA.csv"
+  fireprot: "../data/evaluation_sets/test_FIREPROT.csv"
+  asr: "../data/evaluation_sets/asr/ASR.csv"
+  cas: "../data/evaluation_sets/cas/CAS.csv"
+  hld: "../data/evaluation_sets/hld/HLD.csv"
+  ered_asr: "../data/evaluation_sets/ered_asr/ERED_ASR.csv"
+  ered_wt: "../data/evaluation_sets/ered_wt/ERED_WT.csv"

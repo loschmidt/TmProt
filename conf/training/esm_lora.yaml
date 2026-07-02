@@ -1,0 +1,18 @@
+# ESMTrainerConfig — tuned values for ESM2+LoRA training on ProMelt
+# Override any field from the CLI: python src/scripts/train.py lora_alpha=2
+
+model_name: "facebook/esm2_t33_650M_UR50D"
+lora_alpha: 1
+lora_dropout: 0.2793910667846842
+lr: 0.000492217710909342
+r: 1
+weight_decay: 0.000015556742580571586
+max_grad_norm: 0.8054189693385613
+batch_size: 4
+num_train_epochs: 1
+output_dir_base: "models"
+data_dir: "data/promelt/raw"
+experiment_name: "esm2_lora"
+seed: 8893
+dry_run: false
+max_length: 512

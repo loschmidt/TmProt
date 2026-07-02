@@ -1,0 +1,26 @@
+schema: '2.0'
+stages:
+  extract_esm2_promelt@test:
+    cmd: python src/scripts/extract_esm2_embeddings.py -f 
+      data/promelt/processed/meltome_protherm_clusters.csv -o 
+      data/promelt/processed --model_name esm2_t33_650M_UR50D --repr_layer 33 
+      --toks_per_batch 4096 --split test
+    deps:
+    - path: data/promelt/processed/meltome_protherm_clusters.csv
+      hash: md5
+      md5: 9d713cd33de2a2c3844cc5e3cf447e9d
+      size: 24731024
+    - path: src/scripts/extract_esm2_embeddings.py
+      hash: md5
+      md5: bd4d3632006bd1245ac775ff42e14a48
+      size: 10083
+    params:
+      params.yaml:
+        esm2.model_name: esm2_t33_650M_UR50D
+        esm2.repr_layer: 33
+        esm2.toks_per_batch: 4096
+    outs:
+    - path: data/promelt/processed/dataset_esm2_test.csv
+      hash: md5
+      md5: cd733fd1ee24846ff39406f791feaaa4
+      size: 100099890

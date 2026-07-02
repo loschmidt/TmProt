@@ -1,0 +1,56 @@
+# --- data (DVC-managed) ---
+/data/*
+/data/pdb_structures
+/tmp_trainer
+!/data/**/.gitkeep
+!/data/**/*.dvc
+# --- model outputs: ignore everything, whitelist only the 3 strategy paths ---
+/models/*
+!/models/strategy_results.json
+!/models/baseline_mlp/
+!/models/esm3_mlp/
+!/models/esm2_lora/
+!/models/rank_1/
+/models/rank_1/*
+!/models/rank_1/alpha_1/
+/models/rank_1/alpha_1/*
+!/models/rank_1/alpha_1/best_model/
+
+# skip large binary files inside whitelisted model dirs
+*.pt
+*.csv
+
+# skip training artifacts (but keep adapter weights)
+training_args.bin
+# --- HPO outputs (keep study results) ---
+/hyperparameter_optimization_results/*
+!/hyperparameter_optimization_results/esm2_lora_hpo/
+!/hyperparameter_optimization_results/esm2_lora_hpo/best_trial.json
+!/hyperparameter_optimization_results/esm2_lora_hpo/optuna_study.sqlite3
+
+# --- runtime-generated output ---
+/notebooks/analysis/
+/images/
+/predictions/
+/mlruns/
+/cache/
+/src/cache/
+
+# --- old experiments ---
+/finetuned_models/
+/rns_experiments/
+/esm_lora_thesis/
+
+# --- secrets ---
+.env
+
+# --- dev / tooling ---
+**/__pycache__/
+**/.ipynb_checkpoints/
+/.idea/
+/venv/
+/.venv/
+*.egg-info/
+
+.claude
+CLAUDE.md

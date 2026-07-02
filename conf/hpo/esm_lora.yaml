@@ -1,0 +1,66 @@
+# ESM2+LoRA Hyperparameter Optimization config
+# Run: python src/training/hpo/esm_lora_hpo.py
+# Override: python src/training/hpo/esm_lora_hpo.py n_trials=100 optuna.n_startup_trials=10
+
+model_name: "facebook/esm2_t33_650M_UR50D"
+project_name: "esm2_lora_hpo_extended_full_epoch"
+data_dir: "../data/promelt"
+save_root: "../hyperparameter_optimization_results"
+n_trials: 50
+seed: 42
+
+# Fixed TrainingArguments (not tuned by Optuna)
+fixed:
+  num_train_epochs: 1
+  per_device_train_batch_size: 4
+  gradient_checkpointing: true
+  bf16: true
+  bf16_full_eval: true
+  fp16: false
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true
+  torch_empty_cache_steps: 500
+  eval_strategy: "epoch"
+  save_strategy: "epoch"
+  logging_steps: 10
+  logging_first_step: true
+  report_to: "none"
+
+# Optuna study settings
+optuna:
+  direction: minimize
+  n_startup_trials: 5
+  sampler: tpe  # tpe or random
+
+# Search space — each entry is dispatched by sample_hyperparams() in hpo/utils.py
+# type: float  → trial.suggest_float(name, low, high, log=<log>)
+# type: int    → trial.suggest_int(name, low, high)
+# type: categorical → trial.suggest_categorical(name, choices)
+search_space:
+  lr:
+    type: float
+    low: 1.0e-5
+    high: 1.0e-3
+    log: true
+  lr_scheduler_type:
+    type: categorical
+    choices: [cosine, linear, constant]
+  lora_alpha:
+    type: categorical
+    choices: [1, 2, 4]
+  weight_decay:
+    type: float
+    low: 1.0e-6
+    high: 0.2
+    log: true
+  max_grad_norm:
+    type: float
+    low: 0.0
+    high: 1.0
+  r:
+    type: categorical
+    choices: [1, 2, 4]
+  lora_dropout:
+    type: float
+    low: 0.0
+    high: 0.3
