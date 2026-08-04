@@ -10,6 +10,16 @@
 !/models/baseline_mlp/
 !/models/esm3_mlp/
 !/models/esm2_lora/
+# Per-dataset metrics written by src/scripts/predict_dataset.py. Derived and cheap to
+# regenerate, and the prediction CSVs beside them are already ignored via *.csv.
+# Listed explicitly so the model's own *_config.json files stay tracked.
+/models/*/brenda.json
+/models/*/fireprot.json
+/models/*/cas.json
+/models/*/hld.json
+/models/*/ered_wt.json
+/models/*/ered_asr.json
+/models/*/*_promelt_seq.json
 !/models/rank_1/
 /models/rank_1/*
 !/models/rank_1/alpha_1/

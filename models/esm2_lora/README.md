@@ -67,9 +67,8 @@ The model uses a single output neuron for regression, though future improvements
 
 ### Direct Use
 ```
-pip install -r requirements.txt
 cd src/tmprot
-python cli.py -f ../../test/FIR.fasta  -s ../../predictions/
+python cli.py -i ../../test/FIR.fasta -o ../../predictions/ -d "\t"
 ```
 
 ### Out-of-Scope Use
@@ -91,9 +90,12 @@ Prepare a FASTA file with your protein(s).
 
 Use the CLI to predict:
 
-    python cli.py -f path/to/input.fasta -s path/to/output/directory
+    python cli.py -i path/to/input.fasta -o path/to/output_directory -d "\t"
 
-    The output is saved as a JSON list: [id, sequence, tm].
+The output CSV file contains the following columns:
+```
+Protein_ID, Sequence, Predicted_Tm
+```
 
 For code integration, use the TmPredictor class in `src/tmprot/cli.py`.
 ## Training Details
@@ -114,11 +116,11 @@ The model was trained on the ProMelt dataset — a curated combination of the Me
 | Model                  | facebook/esm2_t33_650M_UR50D |
 | LoRA rank              | 1                            |
 | LoRA alpha             | 1                            |
-| LoRA dropout           | 0.1                          |
-| Learning rate          | 4.95e-4                      |
+| LoRA dropout           | 0.28                         |
+| Learning rate          | 4.92e-4                      |
 | Weight decay           | 1.56e-5                      |
 | Gradient clipping      | 0.805                        |
-| Batch size             | 16                           |
+| Batch size             | 4                            |
 | Epochs                 | 1                            |
 | Precision              | fp16 (mixed)                 |
 | Scheduler              | Cosine                       |
@@ -128,7 +130,7 @@ The model was trained on the ProMelt dataset — a curated combination of the Me
 | Best model selection   | Based on RMSE                |
 | Gradient checkpointing | Enabled                      |
 | MLflow tracking        | Enabled (via DagsHub)        |
-
+| Seed                   | 8893                         |
 
 - LoRA target modules: query, key, and value
 
@@ -138,7 +140,7 @@ The model was trained on the ProMelt dataset — a curated combination of the Me
 #### Speeds, Sizes, Times [optional]
 - ~4200 seconds for training and evaluation.
 - Inference speed: ~5 sec/protein 
-- 7.3M size for `MODEl.pt` file with adapters and updated weights.
+- 7.3M size for `model` folder with adapters and updated weights.
 
 ## Evaluation
 
@@ -163,18 +165,27 @@ The test set consists of ~7300 proteins held out from ProMelt. Care was taken to
 - SCC (Spearman's Correlation Coefficient): Measures monotonic relationship between predicted and actual Tm values.
 
 ### Results
+#### Internal Evaluation Results (ProMelt Train/Val/Test)
+| **Metric**         | **Train** | **Validation** | **Test** |
+| ------------------ | --------: | -------------: | -------: |
+| **Loss**           |     31.14 |          34.94 |    39.48 |
+| **RMSE**           |      5.58 |           5.91 |     6.28 |
+| **R² Score**       |     0.685 |          0.656 |    0.687 |
+| **PCC (Pearson)**  |     0.828 |          0.810 |    0.830 |
+| **SCC (Spearman)** |     0.635 |          0.585 |    0.617 |
+| **Runtime (s)**    |   1602.62 |         178.19 |   337.08 |
+| **Samples/sec**    |     21.44 |          21.45 |    21.45 |
+| **Steps/sec**      |      5.36 |           5.37 |     5.36 |
+| **Epoch**          |         1 |              1 |        1 |
 
-| Metric                    | Train          | Validation    | Test          |
-|---------------------------|----------------|---------------|---------------|
-| Loss                      | 31.14          | 34.94         | 39.48         |
-| RMSE                      | 5.58           | 5.91          | 6.28          |
-| R2 Score                  | 0.685          | 0.656         | 0.687         |
-| Pearson Correlation (PCC) | 0.828          | 0.810         | 0.830         |
-| Spearman Correlation (SCC)| 0.635          | 0.585         | 0.617         |
-| Runtime (seconds)         | 1602.62        | 178.19        | 337.08        |
-| Samples per second        | 21.44          | 21.45         | 21.45         |
-| Steps per second          | 5.36           | 5.37          | 5.36          |
-| Epoch                     | 1              | 1             | 1             |
+#### Independent evaluation
+| **Dataset**       | **RMSE** | **R² Score** | **PCC (Pearson)** | **SCC (Spearman)** |
+| ----------------- | -------: | -----------: | ----------------: | -----------------: |
+| **BRENDA**        |    15.31 |        0.209 |            0.6693 |             0.5175 |
+| **FireProt**      |    14.01 |       0.0618 |            0.5802 |             0.4306 |
+| **ASR**           |     7.36 |      -0.0749 |            0.2226 |             0.2515 |
+| **CAS**           |     6.50 |        0.223 |            0.6330 |             0.4461 |
+| **HLD**           |     6.70 |       -0.232 |            0.3090 |             0.2722 |
 
 These metrics indicate that the model achieves good regression performance on the protein thermostability prediction task, with reasonable generalization from training to test data.
 
@@ -277,7 +288,7 @@ For additional details, updates, and community discussion:
 
 Repository: https://git.loschmidt.cz/tmprot/tmprot-predictor
 ## Model Card Authors [optional]
-- pailozian@fnusa.cz
+- karen.pailozian@fnusa.cz
 - add contacts ...
 
 Loschmidt Laboratories (Masaryk University)

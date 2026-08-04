@@ -11,7 +11,7 @@
   "layers_to_transform": null,
   "loftq_config": {},
   "lora_alpha": 1,
-  "lora_dropout": 0.1,
+  "lora_dropout": 0.2793910667846842,
   "megatron_config": null,
   "megatron_core": "megatron.core",
   "modules_to_save": [

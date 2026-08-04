@@ -29,6 +29,8 @@ from dataclasses import dataclass
 from sklearn.metrics import roc_curve, auc, precision_recall_curve, average_precision_score
 from scipy import stats
 
+from src.eval.calibration import cumulative_precision
+
 # Project root (two levels up from src/eval/)
 ROOT = Path(__file__).parent.parent.parent
 
@@ -380,11 +382,11 @@ def plot_tm_cutoff_curve_number(
         predicted = df['Tm_Predicted'].to_numpy().flatten()
         actual = df['Tm_Actual'].to_numpy().flatten()
 
-        percentages = [
-            (np.sum(actual[predicted > cutoff] > true_threshold) / (actual[predicted > cutoff].shape[0])) * 100
-            if np.any(predicted > cutoff) else np.nan
-            for cutoff in cutoffs
-        ]
+        # strict=True keeps the legacy '>' comparison, so this plot is unchanged by the
+        # extraction of the shared helper into src/eval/calibration.py.
+        percentages = cumulative_precision(
+            actual, predicted, cutoffs, true_threshold, strict=True
+        )["rate"].to_numpy() * 100
 
         model = models[i]
         ax1.plot(
@@ -397,11 +399,10 @@ def plot_tm_cutoff_curve_number(
     ref_df = next((df for df in filtered_dfs if not df.empty), None)
     if ref_df is not None:
         actual_ref = ref_df['Tm_Actual'].to_numpy().flatten()
-        actual_percentages = [
-            (np.sum(actual_ref[actual_ref > cutoff] > true_threshold) / (actual_ref[actual_ref > cutoff].shape[0])) * 100
-            if np.any(actual_ref > cutoff) else np.nan
-            for cutoff in cutoffs
-        ]
+        # The ideal predictor is the same curve with the actual Tm used as the score.
+        actual_percentages = cumulative_precision(
+            actual_ref, actual_ref, cutoffs, true_threshold, strict=True
+        )["rate"].to_numpy() * 100
         ax1.plot(cutoffs, actual_percentages, marker='o', linestyle='--', color='c', linewidth=2, label='Ideal predictor')
 
     ax1.grid(True, linestyle='--', alpha=0.7)
