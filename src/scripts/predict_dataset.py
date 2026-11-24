@@ -3,7 +3,7 @@ Run a trained ESM2+LoRA model over arbitrary CSV datasets and dump prediction CS
 
 The inference recipe here is the one already used by
 `src/strategies/esm2_lora.py:evaluate()`, generalized so it can target any CSV
-carrying `ProteinID`, `sequence`, `Tm` and `Length` columns -- not just the six
+carrying `ProteinID`, `sequence` and `Tm` columns (and `Length` when --length_filter is used) -- not just the six
 independent evaluation sets (for example the Meltome validation and test splits).
 
 Outputs, per input CSV, into `--outdir`:
@@ -54,7 +54,7 @@ def predict_csv(
     output_dir: str,
     max_length: int = 512,
     batch_size: int = 8,
-    length_filter: bool = True,
+    length_filter: bool = False,
 ) -> Tuple[pd.DataFrame, dict]:
     """
     Run the model over one CSV and persist predictions plus regression metrics.
@@ -66,7 +66,7 @@ def predict_csv(
         output_dir (str): Directory to write {stem}.csv and {stem}.json into.
         max_length (int): Tokenizer truncation length.
         batch_size (int): Per-device eval batch size.
-        length_filter (bool): Apply the 20-2000 residue filter.
+        length_filter (bool): Drop sequences outside 20-2000 residues (off by default).
 
     Returns:
         Tuple[pd.DataFrame, dict]: Predictions frame and the metrics dict.
@@ -119,10 +119,12 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--config", default="conf/training/esm_lora.yaml", help="Trainer config YAML")
     parser.add_argument("--batch_size", type=int, default=8, help="Eval batch size")
     parser.add_argument(
-        "--no_length_filter",
+        "--length_filter",
         action="store_true",
-        help="Skip the 20-2000 residue filter (input must still have a Length column)",
+        help="Drop sequences outside 20-2000 residues (off by default: every protein is scored)",
     )
+    # Kept so that older job scripts still run; the filter is off by default now.
+    parser.add_argument("--no_length_filter", action="store_true", help=argparse.SUPPRESS)
     return parser.parse_known_args()
 
 
@@ -147,7 +149,7 @@ def main() -> None:
             output_dir=args.outdir,
             max_length=cfg.max_length,
             batch_size=args.batch_size,
-            length_filter=not args.no_length_filter,
+            length_filter=args.length_filter,
         )
 
 

@@ -66,7 +66,7 @@ tmprot --input proteins.fasta --outdir predictions --threshold 60
 Output: one CSV with the predicted Tm of each protein and whether it is at or above the threshold.
 Sequences longer than 1022 residues are truncated to their first 1022 (an ESM-2 limit).
 
-To score your own CSV (columns `ProteinID`, `sequence`, `Tm`, `Length`) with a trained adapter:
+To score your own CSV (columns `ProteinID`, `sequence`, `Tm`) with a trained adapter:
 
 ```bash
 python src/scripts/predict_dataset.py --inputs data/evaluation_sets/brenda/raw/BRENDA.csv \
