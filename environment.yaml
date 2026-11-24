@@ -1,0 +1,46 @@
+name: tmprot
+channels:
+  - pytorch
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch=2.5.1
+  - torchvision=0.20.1
+  - torchaudio=2.5.1
+  - pandas
+  - scipy
+  - scikit-learn
+  - seaborn
+  - prettytable
+  - numpy
+  - matplotlib
+  - packaging
+  - ipykernel
+  # Pinned for citability and to keep the mmseqs.com nightly out. Notebook 3
+  # clusters with `--cluster-mode 1`, which the nightly (commit 17b688d2) rejects
+  # outright -- "align2clust doesn't support clustering mode: 1" -- killing the
+  # run. Every bioconda release tested accepts it.
+  #
+  # The pin is NOT protecting a behaviour difference: 15.6f452, 17.b804f and
+  # 18.8cc5c were each run on the Part 2 search and returned the same 11,185 raw
+  # hits and the same 1,489 removed sequences (pairwise Jaccard 1.0000).
+  - mmseqs2=18.8cc5c
+  - pip:
+      - transformers==4.47.1
+      - accelerate==1.1.1
+      - datasets>=2.18.0
+      - peft==0.13.2
+      - optuna
+      - nvitop
+      - mlflow
+      - dagshub
+      - biopython
+      - joblib
+      - tqdm
+      - python-dotenv
+      - esm
+      - omegaconf>=2.3

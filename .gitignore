@@ -1,0 +1,18 @@
+# data, models and outputs are downloaded or produced locally (see scripts/setup_data.py)
+/data/
+/models/
+/predictions/
+/zenodo_predictions/
+/mlruns/
+/hyperparameter_optimization_results/
+
+# secrets and environments
+.env
+/venv/
+/.venv/
+
+# python
+__pycache__/
+*.pyc
+*.egg-info/
+.ipynb_checkpoints/

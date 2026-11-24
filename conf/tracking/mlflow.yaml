@@ -1,0 +1,5 @@
+# MLflow / DagsHub tracking configuration
+# All values here are read from environment variables — see .env.example
+# Do NOT hardcode credentials in this file.
+
+default_experiment: "optuna"

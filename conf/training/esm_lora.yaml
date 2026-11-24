@@ -1,0 +1,23 @@
+# ESMTrainerConfig — tuned values for ESM2+LoRA training on Meltome (TmProt 2.0)
+# Override any field from the CLI: python src/scripts/train.py lora_alpha=2
+
+model_name: "facebook/esm2_t33_650M_UR50D"
+lora_alpha: 1
+# Values below are Optuna trial 21 (models/esm2_lora_1024/best_trial.json), the trial
+# that produced the esm2_lora_1024 checkpoint. lr_scheduler_type and warmup_ratio were
+# part of the search space, so they are set here rather than left to the trainer default.
+lora_dropout: 0.3616326822076182
+lr: 0.0009802087957764465
+lr_scheduler_type: "linear"
+warmup_ratio: 0.06777238177111848
+r: 1
+weight_decay: 0.0000010354522925338798
+max_grad_norm: 0.14760402687280133
+batch_size: 4
+num_train_epochs: 1
+output_dir_base: "models"
+data_dir: "data/meltome/processed"
+experiment_name: "esm2_lora"
+seed: 8893
+dry_run: false
+max_length: 1024
