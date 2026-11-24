@@ -21,6 +21,10 @@ Code, trained models and data for:
 
 The deployed TmProt 1.0 is the six-epoch `esm2_lora` adapter, seed 42.
 
+<p align="center">
+  <img src="assets/scheme.jpg" alt="The three strategies: Baseline MLP, ESM-2-LoRA and ESM-3-MLP" width="800"/>
+</p>
+
 ## Install
 
 ```bash
