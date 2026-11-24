@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "TmProt: protein melting temperature prediction with ESM-2 and ESM-3"
+type: software
+repository-code: "https://github.com/loschmidt/TmProt"
+authors:
+  - family-names: "Pailozian"
+    given-names: "Karen"
+    affiliation: "Loschmidt Laboratories, Department of Experimental Biology and RECETOX, Faculty of Science, Masaryk University, 625 00 Brno, Czech Republic"
+  - family-names: "Kohout"
+    given-names: "Pavel"
+    affiliation: "Loschmidt Laboratories, Department of Experimental Biology and RECETOX, Faculty of Science, Masaryk University, 625 00 Brno, Czech Republic"
+  - family-names: "Damborsky"
+    given-names: "Jiri"
+    affiliation: "Loschmidt Laboratories, Department of Experimental Biology and RECETOX, Faculty of Science, Masaryk University, 625 00 Brno, Czech Republic"
+  - family-names: "Mazurenko"
+    given-names: "Stanislav"
+    affiliation: "Loschmidt Laboratories, Department of Experimental Biology and RECETOX, Faculty of Science, Masaryk University, 625 00 Brno, Czech Republic"
+  - family-names: "Hirner"
+    given-names: "Simon"
+    affiliation: "Loschmidt Laboratories, Department of Experimental Biology and RECETOX, Faculty of Science, Masaryk University, 625 00 Brno, Czech Republic"
