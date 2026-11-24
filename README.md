@@ -35,16 +35,16 @@ pip install -e .
 
 ## Get the data
 
-The datasets, predictions and trained adapters are on Zenodo (https://zenodo.org/records/24196854).
+The datasets, predictions and trained adapters are on Zenodo (https://zenodo.org/records/24504578).
 
 ```bash
-python scripts/setup_data.py                                # training sets + six evaluation sets
+python scripts/setup_data.py                                # training sets + six evaluation sets + ProTherm
 python scripts/setup_data.py --datasets predictions adapters   # optional: predictions and the three LoRA adapters
 ```
 
 Files land in `data/meltome/processed/` (train, validation and test; Meltome Atlas, CC0) and
-`data/evaluation_sets/<set>/raw/` (BRENDA, FireProt, ERED-WT, ERED-ASR, CAS, HLD).
-ProTherm is not redistributed; it is available from [ProThermDB](https://web.iitm.ac.in/bioinfo2/prothermdb/).
+`data/evaluation_sets/<set>/raw/` (BRENDA, FireProt, ERED-WT, ERED-ASR, CAS, HLD, ProTherm).
+The ProTherm table comes from [ProThermDB](https://web.iitm.ac.in/bioinfo2/prothermdb/).
 
 ## Train
 

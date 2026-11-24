@@ -2,9 +2,9 @@
 """
 Download the TmProt datasets from Zenodo and place them where the code expects them.
 
-Zenodo record 24196854 holds the data behind the manuscript (concept DOI 10.5281/zenodo.20067527).
-By default this script downloads the Meltome training/validation/test sets and the six
-independent evaluation sets. Optional extras: the Meltome cluster table, the per-protein
+Zenodo record 24504578 holds the data behind the manuscript (concept DOI 10.5281/zenodo.20067527).
+By default this script downloads the Meltome training/validation/test sets, the six
+independent evaluation sets and ProTherm (from ProThermDB). Optional extras: the Meltome cluster table, the per-protein
 predictions of all compared models, and the trained LoRA adapters.
 
 Examples:
@@ -25,7 +25,7 @@ from typing import Dict, List, Optional, Tuple
 from urllib.error import URLError
 from urllib.request import urlopen
 
-ZENODO_RECORD_ID = "24196854"
+ZENODO_RECORD_ID = "24504578"
 ZENODO_API_BASE = "https://zenodo.org/api/records"
 
 # key: (file name on Zenodo, target directory, target file name; "" = extract the zip there)
@@ -39,12 +39,13 @@ FILES_CONFIG: Dict[str, Tuple[str, str, str]] = {
     "ered_asr": ("ERED_ASR.csv", "data/evaluation_sets/ered_asr/raw", "ERED_ASR.csv"),
     "cas": ("CAS.csv", "data/evaluation_sets/cas/raw", "CAS.csv"),
     "hld": ("HLD.csv", "data/evaluation_sets/hld/raw", "HLD.csv"),
+    "protherm": ("PROTHERM.csv", "data/evaluation_sets/protherm/raw", "PROTHERM.csv"),
     # optional extras
     "clusters": ("meltome_clusters.csv", "data/meltome/processed", "meltome_clusters.csv"),
     "predictions": ("tmprot_predictions.zip", "zenodo_predictions", ""),
     "adapters": ("tmprot_lora_adapters.zip", "models", ""),
 }
-DEFAULT_KEYS = ["train", "val", "test", "brenda", "fireprot", "ered_wt", "ered_asr", "cas", "hld"]
+DEFAULT_KEYS = ["train", "val", "test", "brenda", "fireprot", "ered_wt", "ered_asr", "cas", "hld", "protherm"]
 
 
 def get_zenodo_files(record_id: str) -> Dict[str, Dict[str, str]]:
