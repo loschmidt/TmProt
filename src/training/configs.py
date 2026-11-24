@@ -24,7 +24,6 @@ class ESMTrainerConfig:
     data_dir: str = "../data/meltome/processed"
     experiment_name: str = "esm2_lora"
     seed: int = 8893
-    dry_run: bool = False
     max_length: int = 1024
     # gradient_accumulation_steps: int = 4
     # gradient_checkpointing: bool = True

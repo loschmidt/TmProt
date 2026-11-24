@@ -3,7 +3,7 @@
 Usage:
     python src/scripts/train.py
     python src/scripts/train.py --config conf/training/esm_lora.yaml
-    python src/scripts/train.py lora_alpha=2 lr=1e-4 dry_run=true
+    python src/scripts/train.py lora_alpha=2 lr=1e-4 num_train_epochs=1
 """
 import argparse
 import time

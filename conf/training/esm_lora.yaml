@@ -19,5 +19,4 @@ output_dir_base: "models"
 data_dir: "data/meltome/processed"
 experiment_name: "esm2_lora"
 seed: 8893
-dry_run: false
 max_length: 1024
